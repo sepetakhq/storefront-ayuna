@@ -1,0 +1,240 @@
+/* ayuna — the design's tokens. Colours are the template's own (the platform
+   sends names, not palettes); the merchant's words come from config. */
+:root {
+  --ay-pink: #E0336F;
+  --ay-pink-dark: #C8205C;
+  --ay-pink-ink: #D62A66;
+  --ay-ink: #1B1530;
+  --ay-text: #1B1530;
+  --ay-body: #5A5268;
+  --ay-muted: #6B6478;
+  --ay-muted-2: #8A8296;
+  --ay-surface: #FFFFFF;
+  --ay-blush: #FCE3ED;
+  --ay-blush-2: #FFF3F7;
+  --ay-tint: #FFF4F8;
+  --ay-tint-2: #FDEBF2;
+  --ay-soft: #FFF7FA;
+  --ay-line: #F3E3EA;
+  --ay-line-2: #F1D6E0;
+  --ay-note: #B8541F;
+  --ay-error: #B3261E;
+  --ay-gutter: clamp(16px, 4vw, 32px);
+  --ay-max: 1240px;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--ay-surface);
+  color: var(--ay-text);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+* { box-sizing: border-box; }
+a { color: var(--ay-pink-ink); text-decoration: none; }
+a:hover { color: #B01D52; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+button:disabled { cursor: not-allowed; }
+input, select, textarea { font-family: inherit; color: var(--ay-text); }
+input::placeholder { color: #9C93A8; }
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--ay-pink); outline-offset: 1px; }
+:focus-visible { outline: 2px solid var(--ay-pink); outline-offset: 2px; }
+
+/* --- layout ------------------------------------------------------------ */
+.ay-wrap { max-width: var(--ay-max); margin: 0 auto; padding: 0 var(--ay-gutter); }
+.ay-section { padding: 72px var(--ay-gutter) 0; }
+.ay-inner { max-width: var(--ay-max); margin: 0 auto; }
+.ay-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+.ay-h2 { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.02em; }
+.ay-see-all { font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+.ay-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ay-pink-ink); }
+.ay-crumbs { display: flex; gap: 8px; font-size: 13px; color: var(--ay-muted); flex-wrap: wrap; }
+.ay-crumbs a { color: var(--ay-muted); }
+.ay-crumbs [aria-current] { color: var(--ay-text); font-weight: 600; }
+.ay-pagehead { background: linear-gradient(180deg, var(--ay-blush) 0%, var(--ay-blush-2) 100%); padding: 36px var(--ay-gutter) 32px; }
+.hs { overflow-x: auto; scrollbar-width: none; }
+.hs::-webkit-scrollbar { height: 0; }
+
+/* --- buttons ----------------------------------------------------------- */
+.ay-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 48px; padding: 0 22px; border-radius: 12px;
+  font-size: 15px; font-weight: 700; line-height: 1.2; text-align: center;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.ay-btn-primary { background: var(--ay-pink); color: #fff; }
+.ay-btn-primary:hover { background: var(--ay-pink-dark); color: #fff; }
+.ay-btn-primary:disabled { background: #F3F0F5; color: var(--ay-muted); }
+.ay-btn-ghost { background: #fff; color: var(--ay-text); border: 1px solid var(--ay-line-2); }
+.ay-btn-ghost:hover { border-color: var(--ay-pink); color: var(--ay-text); }
+.ay-btn-outline { background: #fff; color: var(--ay-pink-ink); border: 1.5px solid var(--ay-pink); }
+.ay-btn-outline:hover { background: #FFF1F6; color: var(--ay-pink-ink); }
+.ay-btn-dark { background: transparent; color: var(--ay-ink); border: 1.5px solid var(--ay-ink); }
+.ay-btn-dark:hover { background: var(--ay-ink); color: #fff; }
+.ay-btn-light { background: #fff; color: var(--ay-pink-ink); }
+.ay-btn-light:hover { background: #FFF1F6; color: var(--ay-pink-ink); }
+.ay-pill {
+  display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 16px; border-radius: 999px; flex-shrink: 0;
+  font-size: 13px; font-weight: 600; white-space: nowrap; background: #fff; color: var(--ay-text); border: 1px solid var(--ay-line-2);
+}
+.ay-pill:hover { border-color: var(--ay-pink); color: var(--ay-pink-ink); }
+.ay-pill[aria-current="true"] { background: var(--ay-pink); border-color: var(--ay-pink); color: #fff; font-weight: 700; }
+
+/* --- hover states still used by the checkout / order screens ------------ */
+.hv-pink:hover    { color: var(--ay-pink); }
+.hv-primary:hover { background: var(--ay-pink-dark); color: #fff; }
+.hv-dark:hover    { background: #000; }
+.hv-butter:hover  { background: var(--ay-pink-dark); }
+.hv-cream:hover   { background: var(--ay-tint); }
+.hv-bd-pink:hover { border-color: var(--ay-pink); }
+.hv-card:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(177, 40, 92, 0.12); }
+
+/* --- header ------------------------------------------------------------ */
+.ay-header { position: sticky; top: 0; z-index: 30; background: rgba(255, 245, 249, 0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid #F6DCE5; }
+.ay-header-row { max-width: var(--ay-max); margin: 0 auto; padding: 14px var(--ay-gutter); display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.ay-nav { display: flex; align-items: center; gap: 28px; }
+.ay-nav a { font-size: 14px; font-weight: 500; color: var(--ay-text); padding: 6px 0; border-bottom: 2px solid transparent; white-space: nowrap; }
+.ay-nav a:hover { color: var(--ay-pink); }
+.ay-nav a.active { font-weight: 600; color: var(--ay-pink); border-bottom-color: var(--ay-pink); }
+.ay-search { display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid var(--ay-line-2); border-radius: 999px; padding: 0 6px 0 16px; height: 44px; width: 240px; }
+.ay-search input { border: 0; outline: 0; background: transparent; font: 500 13px 'Plus Jakarta Sans', sans-serif; flex: 1; min-width: 0; }
+.ay-search input:focus { outline: 0; }
+.ay-search:focus-within { border-color: var(--ay-pink); }
+.ay-search button { width: 32px; height: 32px; border-radius: 999px; display: flex; align-items: center; justify-content: center; }
+.ay-icon-btn { width: 44px; height: 44px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; color: var(--ay-text); flex-shrink: 0; }
+.ay-icon-btn:hover { color: var(--ay-pink); }
+.ay-cart { position: relative; width: 48px; height: 48px; border-radius: 999px; background: var(--ay-pink); color: #fff; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(224, 51, 111, 0.28); flex-shrink: 0; }
+.ay-cart:hover { background: var(--ay-pink-dark); color: #fff; }
+.ay-cart-count { position: absolute; top: -2px; right: -2px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 999px; background: var(--ay-ink); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid #FFF5F9; }
+.ay-menu-btn { width: 48px; height: 48px; border: 1px solid var(--ay-line-2); border-radius: 999px; background: #fff; display: none; align-items: center; justify-content: center; flex-shrink: 0; }
+.ay-menu-panel { border-top: 1px solid #F6DCE5; background: #fff; padding: 16px var(--ay-gutter) 20px; display: flex; flex-direction: column; gap: 6px; max-height: calc(100vh - 80px); overflow: auto; }
+.ay-menu-panel .ay-search { width: 100%; height: 50px; background: var(--ay-soft); border-radius: 14px; margin-bottom: 8px; }
+.ay-menu-panel .ay-search input { font-size: 15px; }
+.ay-menu-panel .ay-search button { width: 40px; height: 40px; background: var(--ay-pink); color: #fff; }
+.ay-menu-panel > a { min-height: 48px; padding: 0 14px; border-radius: 12px; color: var(--ay-text); font-size: 16px; font-weight: 600; display: flex; align-items: center; }
+.ay-menu-panel > a:hover { background: var(--ay-soft); color: var(--ay-text); }
+.ay-menu-panel > a.active { background: #FFF1F6; color: var(--ay-pink-ink); font-weight: 700; }
+body[data-menu="1"] { overflow: hidden; }
+/* Full row at ≥1180px. Below it the nav moves into the menu panel and the
+   search box becomes an icon: merchant nav labels have no fixed width, so
+   the row is never asked to fit them beside a 240px box. */
+.ay-only-narrow { display: none; }
+@media (max-width: 1179px) {
+  .ay-nav, .ay-only-wide { display: none; }
+  .ay-menu-btn, .ay-only-narrow { display: inline-flex; }
+  .ay-header-row { gap: 12px; }
+}
+@media (min-width: 1180px) {
+  .ay-menu-panel { display: none; }
+}
+@media (max-width: 480px) {
+  .ay-tagline { display: none; }
+}
+
+/* --- product card ------------------------------------------------------ */
+.ay-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 156px), 1fr)); gap: clamp(12px, 2vw, 20px); }
+@media (min-width: 560px) { .ay-grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); } }
+.ay-card { background: #fff; border: 1px solid var(--ay-line); border-radius: 20px; padding: 12px; display: flex; flex-direction: column; gap: 12px; transition: box-shadow .2s; min-width: 0; }
+.ay-card:hover { box-shadow: 0 14px 30px rgba(177, 40, 92, 0.1); }
+.ay-card-media { position: relative; display: block; border-radius: 14px; overflow: hidden; }
+.ay-card-tags { position: absolute; top: 10px; left: 10px; display: flex; gap: 6px; flex-wrap: wrap; z-index: 1; }
+.ay-tag { font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 999px; background: #fff; color: var(--ay-text); }
+.ay-tag-sale { background: var(--ay-pink); color: #fff; }
+.ay-card-veil { position: absolute; inset: 0; background: rgba(255, 255, 255, 0.6); display: flex; align-items: center; justify-content: center; z-index: 1; padding: 8px; }
+.ay-card-veil span { background: var(--ay-ink); color: #fff; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 999px; text-align: center; }
+.ay-card-name { font-size: 15px; font-weight: 700; color: var(--ay-text); line-height: 1.35; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.ay-card-name:hover { color: var(--ay-pink-ink); }
+.ay-card-note { font-size: 12px; font-weight: 600; color: var(--ay-note); }
+.ay-price { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; color: var(--ay-text); }
+.ay-compare { font-size: 13px; color: var(--ay-muted-2); text-decoration: line-through; }
+.ay-card-foot { display: flex; flex-direction: column; gap: 10px; padding: 0 4px 4px; margin-top: auto; }
+.ay-card-btn { min-height: 40px; padding: 8px 10px; border-radius: 10px; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; line-height: 1.2; width: 100%; }
+.ay-card-btn.is-add { background: var(--ay-pink); color: #fff; }
+.ay-card-btn.is-add:hover { background: var(--ay-pink-dark); color: #fff; }
+.ay-card-btn.is-variant { background: #fff; color: var(--ay-pink-ink); border: 1.5px solid var(--ay-pink); }
+.ay-card-btn.is-variant:hover { background: #FFF1F6; color: var(--ay-pink-ink); }
+.ay-card-btn:disabled { background: #F3F0F5; color: var(--ay-muted); }
+.ay-card-btn .ay-ico-plus, .ay-card-btn .ay-ico-chev { display: none; }
+.ay-stepper { display: flex; align-items: center; justify-content: space-between; border: 1.5px solid var(--ay-pink); border-radius: 10px; overflow: hidden; width: 100%; }
+.ay-stepper button { width: 40px; height: 38px; font-size: 18px; font-weight: 700; color: var(--ay-pink-ink); }
+.ay-stepper button:hover:not(:disabled) { background: #FFF1F6; }
+.ay-stepper button:disabled { color: var(--ay-muted-2); }
+.ay-stepper output { min-width: 30px; text-align: center; font-weight: 800; font-size: 14px; }
+/* Phones get the design's compact card: the same button, round, beside the
+   price, instead of a full-width "Tambah ke keranjang" that wraps onto two
+   lines. One control either way, so a screen reader never meets two. */
+@media (max-width: 479px) {
+  .ay-card { padding: 10px; gap: 10px; }
+  .ay-card-name { font-size: 14px; }
+  .ay-card-foot { flex-direction: row; align-items: center; justify-content: space-between; gap: 8px; }
+  .ay-card-foot .ay-card-btn { width: 44px; height: 44px; min-height: 44px; padding: 0; border-radius: 999px; flex-shrink: 0; }
+  .ay-card-btn .ay-lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .ay-card-btn .ay-ico-cart { display: none; }
+  .ay-card-btn.is-add .ay-ico-plus, .ay-card-btn.is-variant .ay-ico-chev { display: block; }
+  /* The veil on the picture already says why; the reason stays for readers. */
+  .ay-card-foot .ay-card-btn:disabled { position: absolute; width: 1px; height: 1px; min-height: 0; overflow: hidden; clip: rect(0 0 0 0); }
+  /* A stepper does not fit beside a price at this width: it takes the row. */
+  .ay-card-foot { flex-wrap: wrap; }
+  .ay-card-foot .ay-stepper { flex-basis: 100%; }
+  /* Shrinks and wraps its own compare price, rather than pushing the
+     button onto a line of its own. */
+  .ay-card-price { flex: 1 1 0; }
+  .ay-price { font-size: 15px; white-space: nowrap; }
+}
+.ay-price { white-space: nowrap; }
+/* The smallest phones: every pixel of the header row goes to the shop's
+   name, and the card's round button keeps its place beside the price. */
+@media (max-width: 420px) {
+  .ay-header-row { gap: 8px; }
+  .ay-header-row .ay-wordmark { font-size: 18px !important; }
+  .ay-header-row .ay-icon-btn { width: 36px; }
+  .ay-header-row .ay-cart, .ay-header-row .ay-menu-btn { width: 44px; height: 44px; }
+  .ay-card-foot { gap: 6px; }
+  .ay-card-foot .ay-card-btn { width: 38px; height: 38px; min-height: 38px; }
+  .ay-card-foot .ay-price { font-size: 14px; }
+}
+
+/* --- initials tile: what an image-less product or category looks like --- */
+.ay-tile { display: flex; align-items: center; justify-content: center; font-weight: 800; letter-spacing: 1px; color: #A8446C; width: 100%; height: 100%; }
+
+/* --- home -------------------------------------------------------------- */
+.ay-hero { background: linear-gradient(180deg, var(--ay-blush) 0%, var(--ay-blush-2) 100%); padding: 56px var(--ay-gutter) 64px; }
+.ay-hero.lifted { padding-bottom: 104px; }
+.ay-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 48px; align-items: center; }
+.ay-split-420 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 48px; align-items: center; }
+.ay-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 24px; }
+.ay-feature { display: flex; align-items: center; gap: 14px; min-width: 0; }
+@media (max-width: 559px) {
+  .ay-features { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; }
+  .ay-feature { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+.ay-cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: clamp(12px, 2vw, 20px); }
+.ay-cat { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--ay-line); border-radius: 20px; overflow: hidden; color: var(--ay-text); transition: transform .2s, box-shadow .2s; }
+.ay-cat:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(177, 40, 92, 0.12); color: var(--ay-text); }
+.ay-countdown { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.ay-countdown > div { min-width: 60px; padding: 8px 6px; border-radius: 12px; background: rgba(40, 0, 20, 0.22); display: flex; flex-direction: column; align-items: center; }
+
+/* --- loading shimmer --------------------------------------------------- */
+.la-shimmer {
+  background: linear-gradient(100deg, #FFF4F8 0%, #FFFAFC 40%, #FFF4F8 80%);
+  background-size: 220% 100%;
+  animation: la-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes la-shimmer {
+  0%   { background-position: 130% 0; }
+  100% { background-position: -30% 0; }
+}
+.la-floaty { animation: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .la-shimmer { animation: none; }
+  .hv-card:hover, .ay-cat:hover { transform: none; }
+  * { transition: none !important; }
+}
+
+/* The forked cart / checkout / order screens lay product lists out on this. */
+.product-grid { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 560px) {
+  .product-grid { gap: 16px; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+}
