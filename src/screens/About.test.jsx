@@ -105,6 +105,25 @@ describe('About', () => {
     expect(screen.queryByText('Jam buka')).toBeNull();
   });
 
+  // The breadcrumb names the page the way the shop's own nav does, so a
+  // merchant who calls it "Cerita kami" never sees "Tentang kami" here.
+  it('names the page in the breadcrumb with the shop\'s nav label', () => {
+    withBrand({ aboutTitle: 'Ayuna', nav: [{ path: '/', label: 'Beranda' }, { path: '/tentang', label: 'Cerita kami' }] });
+    render(<About />);
+    const crumbs = screen.getByRole('navigation', { name: 'Breadcrumb' });
+    expect(crumbs.querySelector('[aria-current="page"]').textContent).toBe('Cerita kami');
+  });
+
+  it('falls back to the story link label, then the template\'s, for the breadcrumb', () => {
+    withBrand({ aboutTitle: 'Ayuna', nav: [{ path: '/katalog', label: 'Katalog' }], sections: { story_cta: 'Profil toko' } });
+    render(<About />);
+    expect(screen.getByRole('navigation', { name: 'Breadcrumb' }).querySelector('[aria-current="page"]').textContent).toBe('Profil toko');
+    cleanup();
+    withBrand({ aboutTitle: 'Ayuna' });
+    render(<About />);
+    expect(screen.getByRole('navigation', { name: 'Breadcrumb' }).querySelector('[aria-current="page"]').textContent).toBe('Selengkapnya');
+  });
+
   it('titles the cards and the WhatsApp button with the shop\'s words, else its own', () => {
     withBrand({
       aboutTitle: 'Ayuna', address_line1: 'Jl. Riau 18', opening_hours: 'Senin–Sabtu', phone: '0812',
