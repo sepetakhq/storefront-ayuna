@@ -512,7 +512,11 @@ function Checkout({ onPlaced }) {
                         <strong>{c.name}</strong>
                         <span style={{ color: '#5A5268', fontSize: 13 }}> · {c.eta}</span>
                       </span>
-                      <strong>{fmt(c.cost)}</strong>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 'none' }}>
+                        {/* Decorative: the name beside it already says what it is. */}
+                        {c.logo_url ? <img className="ay-choice-logo" src={c.logo_url} alt="" /> : null}
+                        <strong>{fmt(c.cost)}</strong>
+                      </span>
                     </div>
                   </OptionTile>
                 ))}
@@ -537,6 +541,7 @@ function Checkout({ onPlaced }) {
                     selected={method === p.code}
                     disabled={!fits}
                     onClick={() => fits && setMethod(p.code)}
+                    logo={p.logo_url}
                   >
                     <strong>{p.name}</strong>
                     <div style={{ color: '#5A5268', fontSize: 13 }}>
@@ -913,7 +918,7 @@ function Review({
   );
 }
 
-function OptionTile({ selected, onClick, disabled, children }) {
+function OptionTile({ selected, onClick, disabled, logo, children }) {
   return (
     <button
       type="button"
@@ -921,6 +926,9 @@ function OptionTile({ selected, onClick, disabled, children }) {
       disabled={disabled}
       aria-pressed={selected}
       style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 12,
         textAlign: 'left',
         border: `2px solid ${selected ? '#E0336F' : '#F3E3EA'}`,
         background: selected ? '#FDEBF2' : '#FFFFFF',
@@ -934,7 +942,9 @@ function OptionTile({ selected, onClick, disabled, children }) {
         cursor: disabled ? 'not-allowed' : 'pointer',
       }}
     >
-      {children}
+      <div style={{ flex: 1, minWidth: 0 }}>{children}</div>
+      {/* Decorative: the name beside it already says what it is. */}
+      {logo ? <img className="ay-choice-logo" src={logo} alt="" /> : null}
     </button>
   );
 }

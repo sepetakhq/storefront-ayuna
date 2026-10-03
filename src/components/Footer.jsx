@@ -12,6 +12,9 @@ const colTitle = {
   color: 'var(--ay-ink)',
 };
 const chip = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  minHeight: 30,
   fontSize: 12,
   fontWeight: 600,
   color: 'var(--ay-ink)',
@@ -95,10 +98,8 @@ export default function Footer() {
                 <>
                   <div style={colTitle}>{sectionText(brand.sections, 'footer_payment_heading')}</div>
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                    {payments.map((m) => (
-                      <span key={m.code} style={chip}>
-                        {m.name}
-                      </span>
+                    {chips(payments).map((m) => (
+                      <Chip key={m.code} item={m} />
                     ))}
                   </div>
                 </>
@@ -107,10 +108,8 @@ export default function Footer() {
                 <>
                   <div style={{ ...colTitle, marginTop: payments.length ? 8 : 0 }}>{sectionText(brand.sections, 'footer_shipping_heading')}</div>
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                    {shipping.map((c) => (
-                      <span key={c.code} style={chip}>
-                        {c.name}
-                      </span>
+                    {chips(shipping).map((c, i) => (
+                      <Chip key={`${c.code}-${i}`} item={c} />
                     ))}
                   </div>
                 </>
@@ -133,6 +132,25 @@ export default function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+
+/**
+ * One chip per badge: "VA BCA" and "Transfer BCA", or JNE REG and JNE YES,
+ * are the same mark to a buyer checking whether the shop takes their bank or
+ * ships with their courier. A name the platform has no badge for stays text.
+ */
+export function chips(items) {
+  const seen = new Set();
+  return items.filter((x) => !x.logo_url || (!seen.has(x.logo_url) && seen.add(x.logo_url)));
+}
+
+function Chip({ item }) {
+  if (!item.logo_url) return <span style={chip}>{item.name}</span>;
+  return (
+    <span className="ay-logo-chip" style={chip} title={item.name}>
+      <img src={item.logo_url} alt={item.name} loading="lazy" />
+    </span>
   );
 }
 
