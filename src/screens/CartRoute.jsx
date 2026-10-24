@@ -2,13 +2,14 @@ import { Link } from 'react-router-dom';
 
 import { Img, SIZES } from '../ui/Img.jsx';
 import { EmptyState, InlineError, Skeleton } from '../ui/states.jsx';
-import { useCart, MAX_QTY } from '@sepetakhq/storefront-kit/cart/CartProvider';
+import { useCart } from '@sepetakhq/storefront-kit/cart/CartProvider';
+import { stepQty } from '@sepetakhq/storefront-kit/shared/qty';
 import { useCartLines } from '@sepetakhq/storefront-kit/cart/useCartLines';
 import { useConfig } from '@sepetakhq/storefront-kit/config/ConfigProvider';
 import { orderNote, shortNote } from '@sepetakhq/storefront-kit/lib/preorder';
 import { blockerNotice, windowNote } from '@sepetakhq/storefront-kit/lib/availability';
 import { didPurgeLegacy } from '@sepetakhq/storefront-kit/lib/storage';
-import { fmt } from '@sepetakhq/storefront-kit/shared/format';
+import { fmt, formatQty } from '@sepetakhq/storefront-kit/shared/format';
 
 export default function CartRoute() {
   const { freeShipping, freeShippingMin } = useConfig();
@@ -271,7 +272,7 @@ function CartLine({ line, onQty, onRemove }) {
           </div>
         ) : status === 'overstock' ? (
           <div style={{ fontSize: 13, color: '#B8541F', marginTop: 8 }}>
-            Tersisa {available}.{' '}
+            Tersisa {formatQty(available, line.limits.unit)}.{' '}
             <button
               type="button"
               onClick={() => onQty(key, available)}
@@ -302,19 +303,18 @@ function CartLine({ line, onQty, onRemove }) {
               type="button"
               className="hv-cream"
               aria-label="Kurangi jumlah"
-              disabled={item.qty <= 1}
-              onClick={() => onQty(key, item.qty - 1)}
+              onClick={() => { const n = stepQty(item.qty, -1, line.limits); return n === 0 ? remove() : onQty(key, n); }}
               style={qtyButton}
             >
               −
             </button>
-            <span style={{ minWidth: 32, textAlign: 'center', fontWeight: 700 }}>{item.qty}</span>
+            <span style={{ minWidth: 32, textAlign: 'center', fontWeight: 700 }}>{formatQty(item.qty, line.limits.unit)}</span>
             <button
               type="button"
               className="hv-cream"
               aria-label="Tambah jumlah"
-              disabled={item.qty >= Math.min(MAX_QTY, available)}
-              onClick={() => onQty(key, item.qty + 1)}
+              disabled={stepQty(item.qty, 1, line.limits) > Math.min(line.limits.max, available)}
+              onClick={() => onQty(key, stepQty(item.qty, 1, line.limits))}
               style={qtyButton}
             >
               +

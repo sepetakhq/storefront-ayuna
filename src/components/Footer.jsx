@@ -31,7 +31,10 @@ const chip = {
  * gets a short footer rather than headings over nothing.
  */
 export default function Footer() {
-  const { brand, paymentMethods, couriers } = useConfig();
+  const { brand, paymentMethods, couriers, tenant } = useConfig();
+  // The platform's mark, on the plans that carry it. Absent on an older API
+  // version, which strips the field, so nothing is drawn.
+  const badge = tenant?.sepetak_badge === true;
   const payments = (paymentMethods ?? []).filter((m) => m.enabled && m.name);
   const shipping = (couriers ?? []).filter((c) => c.enabled && c.name);
   const socials = (brand.social_links ?? []).filter((s) => s.url);
@@ -119,7 +122,14 @@ export default function Footer() {
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, flexWrap: 'wrap', paddingTop: 20, borderTop: '1px solid var(--ay-line-2)', fontSize: 13, color: 'var(--ay-muted)' }}>
-          <span>{brand.copyright || ''}</span>
+          <span style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 16px' }}>
+            {brand.copyright && <span>{brand.copyright}</span>}
+            {badge && (
+              <a href="https://sepetak.com/?ref=toko" target="_blank" rel="noopener" style={{ fontSize: 12, color: 'var(--ay-muted)', whiteSpace: 'nowrap' }}>
+                Dibuat dengan Sepetak
+              </a>
+            )}
+          </span>
           {socials.length > 0 && (
             <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
               {socials.map((s, i) => (
